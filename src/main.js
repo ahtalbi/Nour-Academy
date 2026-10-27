@@ -1,7 +1,6 @@
 import { CardMaker, PanierItemMaker, ModalCourseMaker, CheckoutModalMaker, CheckoutRecapMaker } from "./components.js";
 import { FixedData } from "./data.js";
 
-const registrationsStorageKey = "nourAcademyRegistrations";
 
 // ----------- Filter the courses --------------
 const container = document.getElementById("container-cards");
@@ -15,11 +14,15 @@ let state = {
     recherche: "",
 };
 
-[nivaux, matier].forEach(el => el.addEventListener("change", () => {
+nivaux.addEventListener("change", () => {
     state.nivaux = nivaux.value;
+    setCources(state);
+});
+
+matier.addEventListener("change", () => {
     state.matier = matier.value;
     setCources(state);
-}));
+});
 
 search.addEventListener("input", () => {
     state.recherche = search.value.trim().toLowerCase();
@@ -31,11 +34,11 @@ const dataFixed = FixedData;
 function setCources(state) {
     let cardsData = dataFixed;
     container.innerHTML = "";
-
+    
     if (state.nivaux) cardsData = cardsData.filter(card => state.nivaux === card.level);
     if (state.matier) cardsData = cardsData.filter(card => state.matier === card.category);
     if (state.recherche) cardsData = cardsData.filter(card => card.subject.toLowerCase().startsWith(state.recherche));
-
+    
     for (let v of cardsData) {
         const div = document.createElement("div");
         div.innerHTML = CardMaker(v);
@@ -43,10 +46,10 @@ function setCources(state) {
 
         card.querySelector(`#button-plus-details-${v.id}`).addEventListener("click", () => openModal(v));
         card.querySelector(`#button-add-to-panier-${v.id}`).addEventListener("click", () => addToPanier(v));
-
+        
         container.appendChild(card);
     }
-
+    
     if (cardsData.length <= 0) {
         const p = document.createElement("p");
         p.textContent = "Aucun cours ne correspond.";
@@ -72,9 +75,11 @@ const panier = [];
 
 function updatePanierSummary() {
     panierCount.textContent = panier.length;
+    
     panierToggleCount.textContent = panier.length;
     panierToggleCount.classList.toggle("hidden", panier.length === 0);
     panierEmpty.classList.toggle("hidden", panier.length > 0);
+    
     const total = panier.reduce((sum, c) => sum + Number(c.price), 0);
     panierTotal.textContent = `${total} MAD`;
 }
@@ -90,6 +95,8 @@ function closePanier() {
 }
 
 // ----------- Checkout --------------
+const registrationsStorageKey = "nourAcademyRegistrations";
+
 function openCheckout() {
     const div = document.createElement("div");
     div.innerHTML = CheckoutModalMaker();
@@ -171,7 +178,7 @@ function openCheckout() {
 
         recap.querySelector("#checkout-done").addEventListener("click", () => {
             registrations.push({
-                id: dossier,
+                id: dossier,    
                 parent: { name: parent, email, phone },
                 student: { name: student, level },
                 courses: savedCourses,
