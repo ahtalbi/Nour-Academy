@@ -59,11 +59,10 @@ function setCources(state) {
 
 setCources(state);
 
-// ----------- Panier --------------
-const panierContainer = document.getElementById("container-panier");
+const panierEmpty = document.getElementById("panier-empty");
 const panierCount = document.getElementById("panier-count");
 const panierTotal = document.getElementById("panier-total");
-const panierEmpty = document.getElementById("panier-empty");
+const panierContainer = document.getElementById("container-panier");
 const panierPanel = document.getElementById("panier");
 const panierOverlay = document.getElementById("panier-overlay");
 const panierToggle = document.getElementById("panier-toggle");
@@ -171,7 +170,6 @@ function openCheckout() {
         }));
         recap.innerHTML = CheckoutRecapMaker({ dossier, parent, email, student, level, courses: [...panier], total });
         form.classList.add("hidden");
-        recap.classList.remove("hidden");
         recap.classList.add("flex");
         if (bars[0]) bars[0].classList.replace("bg-gray-200", "bg-green-500");
         if (bars[1]) bars[1].classList.replace("bg-gray-200", "bg-primary-600");

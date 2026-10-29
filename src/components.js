@@ -1,5 +1,5 @@
 export function CardMaker(course) {
-    return `<article class="flex flex-1 h-fit flex-col gap-4 rounded-xl border border-b-black bg-white p-6 shadow-sm lg:min-w-[45%]">
+    return `<article class="flex h-full min-w-0 flex-col gap-4 rounded-xl border border-b-black bg-white p-6 shadow-sm">
     <div class="flex items-start justify-between gap-4">
         <h3 class="text-2xl font-semibold text-text">${course.subject}</h3>
         <span class="rounded-full bg-primary-100 px-3 py-1 text-sm font-medium text-primary-700">
@@ -17,7 +17,7 @@ ${course.teacher} · ${course.room} · ${course.minAge} – ${course.maxAge} ans
 
     <p class="text-sm text-text-subtle">${course.availablePlaces > 0 ? `${course.availablePlaces} places restantes` : "Complet"}</p>
 
-    <div class="flex flex-wrap items-center justify-between gap-4">
+    <div class="mt-auto flex flex-wrap items-center justify-between gap-4">
         <p class="text-xl font-semibold text-text">
 ${course.price} ${course.currency}
             <span class="text-sm font-normal text-text-muted">
@@ -25,7 +25,7 @@ ${course.price} ${course.currency}
             </span>
         </p>
 
-        <div class="flex gap-3">
+        <div class="flex flex-wrap gap-3">
             <button
                 id="button-plus-details-${course.id}"
                 type="button"
